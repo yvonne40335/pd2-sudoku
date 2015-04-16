@@ -4,7 +4,7 @@
 #include<fstream>
 #include<vector>
 #include"Sudoku.h"
-//using namespace std;
+
 Sudoku::Sudoku(){
 	i=0;
 	map[144];
@@ -15,7 +15,7 @@ Sudoku::Sudoku(){
 	squstart[144];
 	rowadd[12];
 	coladd[12];
-	squadd[12];
+	squadd[9];
 }
 
 void Sudoku::GiveQuestion(){
@@ -66,14 +66,16 @@ void Sudoku::GiveQuestion(){
 
 void Sudoku::ReadIn(){
 	int num;
-	ifstream fin("question.txt",ios::in);
+/*	ifstream fin("question.txt",ios::in);
 	if(!fin)
 		cerr<<"Failed opening"<<endl;
 	while(!fin.eof()){
 		fin>>num;
 		map[i]=num;
 		i++;}
-	fin.close();}
+	fin.close();*/
+	for(i=0;i<144;i++){
+		cin>>map[i];}}
 
 /*bool Sudoku::checkUnity(int arr[]){
 	int arr_unity[12];
@@ -116,7 +118,6 @@ void Sudoku::Solve(){
 	int site=getBlank(-1);
 	do{
 		map[site]++;
-		cout<<map[site]<<endl;
 		if(map[site]>9){
 			map[site]=0;
 			site=back();}
@@ -125,10 +126,10 @@ void Sudoku::Solve(){
 				push(site);
 				site=getBlank(site);}}
 		}while(site>=0 && site<144);
-
-	for(int i=0;i<144;i++){
-		cout<<setw(2)<<map[i];
-		if(i%12==11)
+	
+	for(int j=0;j<144;j++){
+		cout<<setw(2)<<map[j];
+		if(j%12==11)
 			cout<<endl;}}
 
 int Sudoku::init(){
@@ -138,8 +139,11 @@ int Sudoku::init(){
 		squstart[i]=((i/12)/3)*36+((i%12)/3)*3;}
 	for(int i=0;i<12;i++){
 		rowadd[i]=i;
-		coladd[i]=i*12;
-		squadd[i]=(i/3)*12+i%3;}}
+		coladd[i]=i*12;}
+	for(int i=0;i<9;i++){
+		squadd[i]=(i/3)*12+i%3;}
+	for(int i=9;i<12;i++){
+		squadd[i]=0;}}
 
 int Sudoku::getBlank(int site){
 	do{
@@ -150,12 +154,12 @@ int Sudoku::getBlank(int site){
 
 int Sudoku::checkset(int site){
 	int p=0;
-	if(!p) 
-		p=check(site,rowstart[site],rowadd);
-	if(!p) 
-		p=check(site,colstart[site],coladd);
-	if(!p) 
-		p=check(site,squstart[site],squadd);
+	if(!p){
+		p=check(site,rowstart[site],rowadd);}
+	if(!p){
+		p=check(site,colstart[site],coladd);}
+	if(!p){
+		p=check(site,squstart[site],squadd);}
 	return(p);}
 
 int Sudoku::check(int site,int start,int *add){
@@ -166,6 +170,11 @@ int Sudoku::check(int site,int start,int *add){
 			p++;}
 	return(p);}
 
+/*int Sudoku::checkp(int site){
+	int p=0;
+	for(int i=0;i<12;i++){*/
+		
+
 int Sudoku::push(int site){
 	save[savesite++]=site;}
 
@@ -175,8 +184,3 @@ int Sudoku::back(){
 	else
 		return(save[--savesite]);}
 
-/*int main(){
-	GiveQuestion();
-	ReadIn();
-	Solve();
-	return 0;}*/
