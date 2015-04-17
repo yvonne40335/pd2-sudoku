@@ -9,7 +9,9 @@ public:
 	Sudoku();
 	void GiveQuestion();
 	void ReadIn();
-	void Solve();
+	int Solve();
+	bool checkUnity(int *arr);
+	bool isCorrect();
 	int init();
 	int getBlank(int site);
 	int checkset(int site);

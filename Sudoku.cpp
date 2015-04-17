@@ -65,56 +65,19 @@ void Sudoku::GiveQuestion(){
 }
 
 void Sudoku::ReadIn(){
-	int num;
-/*	ifstream fin("question.txt",ios::in);
-	if(!fin)
-		cerr<<"Failed opening"<<endl;
-	while(!fin.eof()){
-		fin>>num;
-		map[i]=num;
-		i++;}
-	fin.close();*/
 	for(i=0;i<144;i++){
 		cin>>map[i];}}
 
-/*bool Sudoku::checkUnity(int arr[]){
-	int arr_unity[12];
-	for(int i=0;i<12;i++)
-		arr_unity[i]=0;
-	for(int i=0;i<12;i++)
-		++arr_unity[arr[i]-1];
-	for(int i=0;i<12;i++)
-		if(arr_unity[i]!=1)
-			return false;
-	return true;}*/
-
-/*bool Sudoku::isCorrect(){
-	bool check_result;
-	int check_arr[12];
-	int location;
-	for(int i=0;i<144;i+=12){
-		for(int j=0;j<12;j++)
-			check_arr[j]=map[i+j];
-		check_result=checkUnity(check_arr);
-		if(check_result==false)
-			return false;}
-	for(int i=0;i<12;i++){
-		for(int j=0;j<12;j++)
-			check_arr[j]=map[i+12*j];
-		check_result=checkUnity(check_arr);
-		if(check_result==false)
-			return false;}
-	for(int i=0;i<16;i++){
-		for(int j=0;j<9;j++0){
-			location=36*(i/3)+3*(i%4)+12*(j/3)+(j%3);
-			check_arr[i]=map[location];}
-		check_result=checkUnity(check_arr);
-		if(check_result==false)
-			return false;}
-	return true;}*/
-
-void Sudoku::Solve(){
+int Sudoku::Solve(){
 	init();
+	if(isCorrect()==false){
+		cout<<"0"<<endl;
+		return 0;}
+	else{
+		cout<<"1"<<endl;}
+/*	else if{
+		cout<<"2"<<endl;
+		return 0;}*/
 	int site=getBlank(-1);
 	do{
 		map[site]++;
@@ -131,6 +94,59 @@ void Sudoku::Solve(){
 		cout<<setw(2)<<map[j];
 		if(j%12==11)
 			cout<<endl;}}
+
+/*bool Sudoku::checkUnity(int arr[]){
+	int arr_unity[12];
+	for(int i=0;i<12;i++)
+		arr_unity[i]=0;
+	for(int i=0;i<12;i++){
+		++arr_unity[arr[i]-1];
+	for(int i=0;i<12;i++)
+		if(arr_unity[i]!=1)
+			return false;
+	return true;}*/
+
+bool Sudoku::isCorrect(){
+/*	bool check_result;
+	int check_arr[12];
+	int location;
+	for(int i=0;i<144;i+=12){
+		for(int j=0;j<12;j++)
+			check_arr[j]=map[i+j];
+		check_result=checkUnity(check_arr);
+		if(check_result==false)
+			return false;}
+	for(int i=0;i<12;i++){
+		for(int j=0;j<12;j++)
+			check_arr[j]=map[i+12*j];
+		check_result=checkUnity(check_arr);
+		if(check_result==false)
+			return false;}
+	for(int i=0;i<16;i++){
+		for(int j=0;j<9;j++){
+			location=36*(i/3)+3*(i%4)+12*(j/3)+(j%3);
+			check_arr[i]=map[location];}
+		check_result=checkUnity(check_arr);
+		if(check_result==false)
+			return false;}*/
+	for(int site=0;site<144;site++){
+		if(map[site]!=-1 && map[site]!=0)
+		{
+			if(check(site,rowstart[site],rowadd)!=0) return false;
+			if(check(site,colstart[site],coladd)!=0) return false;
+			if(check(site,squstart[site],squadd)!=0) return false;
+		}
+		else if(map[site]==-1)
+		{
+			if(site==0 || site==3 || site==6 || site==9 || site==36 || site==39 || site==42 || site==45 || site==72 || site==75 || site==78 || site==81 || site==108 || site==111 || site==114 || site==117)
+			{
+				if(check(site,squstart[site],squadd)!=8) return false;
+			}
+			else	
+				if(check(site,squstart[site],squadd)!=11) return false;
+		}
+	}
+	return true;}
 
 int Sudoku::init(){
 	for(int i=0;i<144;i++){
