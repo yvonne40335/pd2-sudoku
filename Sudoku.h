@@ -14,6 +14,7 @@ public:
 	bool isCorrect();
 	int init();
 	int getBlank(int site);
+	int getBlank1(int site);
 	int checkset(int site);
 	int check(int site,int start,int *add);
 	int push(int site);

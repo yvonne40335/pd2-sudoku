@@ -69,15 +69,16 @@ void Sudoku::ReadIn(){
 		cin>>map[i];}}
 
 int Sudoku::Solve(){
+	vector<int>map1(144);
+	vector<int>map2(144);
 	init();
+
 	if(isCorrect()==false){
 		cout<<"0"<<endl;
 		return 0;}
 	else{
 		cout<<"1"<<endl;}
-/*	else if{
-		cout<<"2"<<endl;
-		return 0;}*/
+
 	int site=getBlank(-1);
 	do{
 		map[site]++;
@@ -90,45 +91,35 @@ int Sudoku::Solve(){
 				site=getBlank(site);}}
 		}while(site>=0 && site<144);
 	
+/*	site=getBlank1(144);
+	do{
+		map[site]++;
+		if(map[site]>9){
+			map[site]=0;
+			site=back();}
+		else{
+			if(checkset(site)==0){
+				push(site);
+				site=getBlank(site);}}
+		}while(site>=0 && site<144);
+	
 	for(int j=0;j<144;j++){
-		cout<<setw(2)<<map[j];
+		map2.at(j)=map[j];
+		cout<<setw(2)<<map2.at(j);
+		if(j%12==11)
+			cout<<endl;}
+
+	if(map1!=map2){
+		cout<<"2"<<endl;
+		return 0;}*/
+
+	for(int j=0;j<144;j++){
+		map1.at(j)=map[j];
+		cout<<setw(2)<<map1.at(j);
 		if(j%12==11)
 			cout<<endl;}}
 
-/*bool Sudoku::checkUnity(int arr[]){
-	int arr_unity[12];
-	for(int i=0;i<12;i++)
-		arr_unity[i]=0;
-	for(int i=0;i<12;i++){
-		++arr_unity[arr[i]-1];
-	for(int i=0;i<12;i++)
-		if(arr_unity[i]!=1)
-			return false;
-	return true;}*/
-
 bool Sudoku::isCorrect(){
-/*	bool check_result;
-	int check_arr[12];
-	int location;
-	for(int i=0;i<144;i+=12){
-		for(int j=0;j<12;j++)
-			check_arr[j]=map[i+j];
-		check_result=checkUnity(check_arr);
-		if(check_result==false)
-			return false;}
-	for(int i=0;i<12;i++){
-		for(int j=0;j<12;j++)
-			check_arr[j]=map[i+12*j];
-		check_result=checkUnity(check_arr);
-		if(check_result==false)
-			return false;}
-	for(int i=0;i<16;i++){
-		for(int j=0;j<9;j++){
-			location=36*(i/3)+3*(i%4)+12*(j/3)+(j%3);
-			check_arr[i]=map[location];}
-		check_result=checkUnity(check_arr);
-		if(check_result==false)
-			return false;}*/
 	for(int site=0;site<144;site++){
 		if(map[site]!=-1 && map[site]!=0)
 		{
@@ -164,6 +155,13 @@ int Sudoku::init(){
 int Sudoku::getBlank(int site){
 	do{
 		site++;
+	}while(site<144 && map[site]!=0 );
+	return(site);
+}
+
+int Sudoku::getBlank1(int site){
+	do{
+		site--;
 	}while(site<144 && map[site]!=0 );
 	return(site);
 }
