@@ -8,6 +8,7 @@
 Sudoku::Sudoku(){
 	i=0;
 	map[144];
+	mapsave[144];
 	save[144];
 	savesite=0;
 	rowstart[144];
@@ -66,7 +67,8 @@ void Sudoku::GiveQuestion(){
 
 void Sudoku::ReadIn(){
 	for(i=0;i<144;i++){
-		cin>>map[i];}}
+		cin>>map[i];
+		mapsave[i]=map[i];}}
 
 int Sudoku::Solve(){
 	vector<int>map1(144);
@@ -76,8 +78,6 @@ int Sudoku::Solve(){
 	if(isCorrect()==false){
 		cout<<"0"<<endl;
 		return 0;}
-	else{
-		cout<<"1"<<endl;}
 
 	int site=getBlank(-1);
 	do{
@@ -90,8 +90,14 @@ int Sudoku::Solve(){
 				push(site);
 				site=getBlank(site);}}
 		}while(site>=0 && site<144);
-	
-/*	site=getBlank1(144);
+
+	for(int i=0;i<144;i++)
+		map1.at(i)=map[i];
+
+	for(int i=0;i<144;i++)
+		map[i]=mapsave[i];
+
+	site=getBlank1(144);
 	do{
 		map[site]++;
 		if(map[site]>9){
@@ -100,21 +106,20 @@ int Sudoku::Solve(){
 		else{
 			if(checkset(site)==0){
 				push(site);
-				site=getBlank(site);}}
+				site=getBlank1(site);}}
 		}while(site>=0 && site<144);
 	
-	for(int j=0;j<144;j++){
+	for(int j=0;j<144;j++)
 		map2.at(j)=map[j];
-		cout<<setw(2)<<map2.at(j);
-		if(j%12==11)
-			cout<<endl;}
 
 	if(map1!=map2){
 		cout<<"2"<<endl;
-		return 0;}*/
+		return 0;
+	}
+	else
+		cout<<"1"<<endl;
 
 	for(int j=0;j<144;j++){
-		map1.at(j)=map[j];
 		cout<<setw(2)<<map1.at(j);
 		if(j%12==11)
 			cout<<endl;}}
@@ -162,7 +167,7 @@ int Sudoku::getBlank(int site){
 int Sudoku::getBlank1(int site){
 	do{
 		site--;
-	}while(site<144 && map[site]!=0 );
+	}while(site>=0 && map[site]!=0 );
 	return(site);
 }
 

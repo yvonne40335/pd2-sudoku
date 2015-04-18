@@ -24,6 +24,7 @@ public:
 private:
 	int i;
 	int map[144];
+	int mapsave[144];
 	int save[144];
 	int savesite;
 	int rowstart[144];
