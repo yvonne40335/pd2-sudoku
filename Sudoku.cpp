@@ -84,10 +84,9 @@ int Sudoku::Solve(){
 		map[site]++;
 		if(map[site]>9){
 			map[site]=0;
-			site=back();}
+			site=save[--savesite];}
 		else{
 			if(checkset(site)==0){
-				push(site);
 				site=getBlank(site);}}
 		}while(site>=0 && site<144);
 
@@ -102,10 +101,9 @@ int Sudoku::Solve(){
 		map[site]++;
 		if(map[site]>9){
 			map[site]=0;
-			site=back();}
+			site=save[--savesite];}
 		else{
 			if(checkset(site)==0){
-				push(site);
 				site=getBlank1(site);}}
 		}while(site>=0 && site<144);
 	
@@ -128,18 +126,18 @@ bool Sudoku::isCorrect(){
 	for(int site=0;site<144;site++){
 		if(map[site]!=-1 && map[site]!=0)
 		{
-			if(check(site,rowstart[site],rowadd)!=0) return false;
-			if(check(site,colstart[site],coladd)!=0) return false;
-			if(check(site,squstart[site],squadd)!=0) return false;
+			if(checkrow(site)!=0) return false;
+			if(checkcol(site)!=0) return false;
+			if(checksqu(site)!=0) return false;
 		}
 		else if(map[site]==-1)
 		{
 			if(site==0 || site==3 || site==6 || site==9 || site==36 || site==39 || site==42 || site==45 || site==72 || site==75 || site==78 || site==81 || site==108 || site==111 || site==114 || site==117)
 			{
-				if(check(site,squstart[site],squadd)!=8) return false;
+				if(checksqu(site)!=8) return false;
 			}
 			else	
-				if(check(site,squstart[site],squadd)!=11) return false;
+				if(checksqu(site)!=11) return false;
 		}
 	}
 	return true;}
@@ -161,45 +159,45 @@ int Sudoku::getBlank(int site){
 	do{
 		site++;
 	}while(site<144 && map[site]!=0 );
-	return(site);
-}
+	save[savesite]=site;
+	return(site);}
 
 int Sudoku::getBlank1(int site){
 	do{
 		site--;
 	}while(site>=0 && map[site]!=0 );
-	return(site);
-}
+	save[savesite++]=site;
+	return(site);}
 
 int Sudoku::checkset(int site){
 	int p=0;
-	if(!p){
-		p=check(site,rowstart[site],rowadd);}
-	if(!p){
-		p=check(site,colstart[site],coladd);}
-	if(!p){
-		p=check(site,squstart[site],squadd);}
-	return(p);}
+	p=checkrow(site);
+	if(p!=0) return p;
+	p=checkcol(site);
+	if(p!=0) return p;
+	p=checksqu(site);
+	return p;}
 
-int Sudoku::check(int site,int start,int *add){
-	int site1,p=0;
+int Sudoku::checkrow(int site){
+	int p=0,site1;
 	for(int i=0;i<12;i++){
-		site1=start+add[i];
+		site1=rowstart[site]+rowadd[i];
 		if(site!=site1 && map[site]==map[site1])
 			p++;}
-	return(p);}
+	return p;}
 
-/*int Sudoku::checkp(int site){
-	int p=0;
-	for(int i=0;i<12;i++){*/
-		
+int Sudoku::checkcol(int site){
+	int p=0,site1;
+	for(int i=0;i<12;i++){
+		site1=colstart[site]+coladd[i];
+		if(site!=site1 && map[site]==map[site1])
+			p++;}
+	return p;}
 
-int Sudoku::push(int site){
-	save[savesite++]=site;}
-
-int Sudoku::back(){
-	if(savesite<=0)
-		return(-1);
-	else
-		return(save[--savesite]);}
-
+int Sudoku::checksqu(int site){
+	int p=0,site1;
+	for(int i=0;i<12;i++){
+		site1=squstart[site]+squadd[i];
+		if(site!=site1 && map[site]==map[site1])
+			p++;}
+	return p;}

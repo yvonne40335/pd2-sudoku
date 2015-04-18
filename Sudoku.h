@@ -10,17 +10,14 @@ public:
 	void GiveQuestion();
 	void ReadIn();
 	int Solve();
-	bool checkUnity(int *arr);
 	bool isCorrect();
 	int init();
 	int getBlank(int site);
 	int getBlank1(int site);
 	int checkset(int site);
-	int check(int site,int start,int *add);
-	int push(int site);
-	int back();
-//	bool
-//	bool
+	int checkrow(int site);
+	int checkcol(int site);
+	int checksqu(int site);
 private:
 	int i;
 	int map[144];
