@@ -11,6 +11,7 @@ public:
 	void ReadIn();
 	int Solve();
 	bool isCorrect();
+	bool checkmore();
 	int init();
 	int getBlank(int site);
 	int getBlank1(int site);

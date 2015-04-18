@@ -22,7 +22,6 @@ Sudoku::Sudoku(){
 void Sudoku::GiveQuestion(){
 	int a,b,c,d,e,f,g,h,i;
 	int arr[9];
-
 	srand((unsigned) time(NULL));
 	for(int i=0;i<9;i++){
 		arr[i]=rand()%9+1;
@@ -47,13 +46,24 @@ void Sudoku::GiveQuestion(){
 		{i,f,h,-1,-1,-1,b,c,a,d,e,g},
 		{c,a,b,-1,-1,-1,e,g,d,f,h,i}};
 	
-	for(int x=0;x<10;x++){
+	for(int x=0;x<30;x++){
 		int i=rand()%12;
 		int j=rand()%12;
 		if(init_map[i][j]!=-1)
 			init_map[i][j]=0;
 		else
 			x=x-1;}
+
+	int m=0;
+	for(int i=0;i<12;i++){
+		for(int j=0;j<12;j++){
+			map[m]=init_map[i][j];
+			mapsave[m]=map[m];
+			m++;}}
+	
+	init();
+	if(isCorrect()==false || checkmore()==false){
+		return GiveQuestion();}
 
 	int x=rand()%4*3;
 	for(int i=0;i<12;i++){
@@ -71,14 +81,28 @@ void Sudoku::ReadIn(){
 		mapsave[i]=map[i];}}
 
 int Sudoku::Solve(){
-	vector<int>map1(144);
-	vector<int>map2(144);
+//	vector<int>map1(144);
+//	vector<int>map2(144);
 	init();
 
 	if(isCorrect()==false){
 		cout<<"0"<<endl;
 		return 0;}
+	if(checkmore()==false){
+		cout<<"2"<<endl;
+		return 0;}
+	else
+		cout<<"1"<<endl;
 
+	for(int j=0;j<144;j++){
+			cout<<setw(2)<<map[j];
+			if(j%12==11)
+				cout<<endl;}}
+	
+
+bool Sudoku::checkmore(){
+	vector<int>map1(144);
+	vector<int>map2(144);
 	int site=getBlank(-1);
 	do{
 		map[site]++;
@@ -111,16 +135,19 @@ int Sudoku::Solve(){
 		map2.at(j)=map[j];
 
 	if(map1!=map2){
-		cout<<"2"<<endl;
-		return 0;
-	}
+		return false;}
+	else 
+		return true;
+
+/*		cout<<"2"<<endl;
+		return 0;}
 	else
 		cout<<"1"<<endl;
 
 	for(int j=0;j<144;j++){
-		cout<<setw(2)<<map1.at(j);
-		if(j%12==11)
-			cout<<endl;}}
+			cout<<setw(2)<<map1.at(j);
+			if(j%12==11)
+				cout<<endl;}*/}
 
 bool Sudoku::isCorrect(){
 	for(int site=0;site<144;site++){
