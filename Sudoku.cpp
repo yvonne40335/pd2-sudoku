@@ -21,7 +21,9 @@ Sudoku::Sudoku(){
 
 void Sudoku::GiveQuestion(){
 	int a,b,c,d,e,f,g,h,i;
-	int arr[9];
+	int arr[9]={0};
+	for(int i=0;i<144;i++){
+		map[i]=0;}
 	srand((unsigned) time(NULL));
 	for(int i=0;i<9;i++){
 		arr[i]=rand()%9+1;
@@ -64,6 +66,7 @@ void Sudoku::GiveQuestion(){
 	init();
 	if(isCorrect()==false || checkmore()==false){
 		return GiveQuestion();}
+	else{
 
 	int x=rand()%4*3;
 	for(int i=0;i<12;i++){
@@ -71,8 +74,8 @@ void Sudoku::GiveQuestion(){
 		if(y>11)
 			y=y-12;
 		for(int j=0;j<12;j++){
-			cout<<setw(2)<<init_map[y][j];}
-		cout<<endl;}
+			cout<<init_map[y][j]<<" ";}
+		cout<<endl;}}
 }
 
 void Sudoku::ReadIn(){
@@ -95,7 +98,7 @@ int Sudoku::Solve(){
 		cout<<"1"<<endl;
 
 	for(int j=0;j<144;j++){
-			cout<<setw(2)<<map[j];
+			cout<<map[j]<<" ";
 			if(j%12==11)
 				cout<<endl;}}
 	
