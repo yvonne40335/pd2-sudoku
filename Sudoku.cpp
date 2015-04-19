@@ -8,8 +8,8 @@ Sudoku::Sudoku(){
 	i=0;
 	map[144];
 	mapsave[144];
-	save[1000];
-	save1[1000];
+	save[144];
+	save1[144];
 	savesite=0;
 	savesite1=0;
 	rowstart[144];
@@ -88,7 +88,6 @@ int Sudoku::Solve(){	//解題目的function
 //	vector<int>map1(144);
 //	vector<int>map2(144);
 	init();	//呼叫為了產生"檢查有無重複數字時,用來運算的值"時所用的function
-	cout<<map[138]<<"a"<<endl;	
 	if(isCorrect()==false){	
 		cout<<'0'<<endl;	//無解時輸出0
 		return 0;}
@@ -115,36 +114,28 @@ bool Sudoku::checkmore(){	//用來檢查是否為多組解的function
 			site=save[--savesite];}	//並找到上一個位置,去重新測試它的值
 		else{
 			if(checkset(site)==0){	//若該位置測試的值,在同一行,列,九宮格都沒有重複,則有可能為正確的值
-	cout<<site<<" "<<map[site]<<endl;
-	site=getBlank(site);}}	//去尋找下一個空格
+				site=getBlank(site);}}	//去尋找下一個空格
 		}while(site>=0 && site<144);
 
-	for(int i=0;i<144;i++){	//將該組解存進map1,以供對照
+	for(int i=0;i<144;i++)	//將該組解存進map1,以供對照
 		map1.at(i)=map[i];
-		cout<<map1.at(i)<<" ";
-		if(i%12==11)
-			cout<<endl;}
 
 	for(int i=0;i<144;i++){	//要進行第二次測試,因此拿出之前存入的題目,重新初始化陣列
 		map[i]=mapsave[i];}
 
-	site=getBlank1(144);	//從最後面開始解
+	site=getBlank1(-1);	//從最後面開始解
 	do{
-		map[site]++;
-		if(map[site]>9){
-			map[site]=0;
+		map[site]--;
+		if(map[site]<=0){
+			map[site]=10;
 			site=save1[--savesite1];}
 		else{
 			if(checkset(site)==0){
-				cout<<site<<" "<<map[site]<<endl;
 				site=getBlank1(site);}}
 		}while(site>=0 && site<144);
-	cout<<map[138]<<"b"<<endl;
+	
 	for(int j=0;j<144;j++){	//將該組解存進map2
-		map2.at(j)=map[j];
-		cout<<map2.at(j)<<" ";
-		if(j%12==11)
-			cout<<endl;}
+		map2.at(j)=map[j];}
 
 	if(map1!=map2){	//如果兩組相同則return true,不同則return false
 		return false;}
@@ -203,8 +194,9 @@ int Sudoku::getBlank(int site){	//找空格
 
 int Sudoku::getBlank1(int site){
 	do{
-		site--;
+		site++;
 	}while(site>=0 && map[site]!=0 );
+	map[site]=10;
 	save1[++savesite1]=site;
 	return(site);}
 
