@@ -1,0 +1,6 @@
+編譯方式:
+			make
+執行方式:
+			./give_question > question.txt
+			./solve < question.txt
+			
