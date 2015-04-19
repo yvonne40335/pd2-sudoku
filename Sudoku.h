@@ -24,7 +24,9 @@ private:
 	int map[144];
 	int mapsave[144];
 	int save[144];
+	int save1[144];
 	int savesite;
+	int savesite1;
 	int rowstart[144];
 	int colstart[144];
 	int squstart[144];

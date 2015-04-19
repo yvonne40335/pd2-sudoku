@@ -1,7 +1,6 @@
 #include<iostream>
 #include<iomanip>
 #include<cstdlib>
-#include<fstream>
 #include<vector>
 #include"Sudoku.h"
 
@@ -10,7 +9,9 @@ Sudoku::Sudoku(){
 	map[144];
 	mapsave[144];
 	save[144];
+	save1[144];
 	savesite=0;
+	savesite1=0;
 	rowstart[144];
 	colstart[144];
 	squstart[144];
@@ -21,7 +22,7 @@ Sudoku::Sudoku(){
 
 void Sudoku::GiveQuestion(){
 	int a,b,c,d,e,f,g,h,i;
-	int arr[9]={0};
+	int arr[9];
 	for(int i=0;i<144;i++){
 		map[i]=0;}
 	srand((unsigned) time(NULL));
@@ -48,7 +49,7 @@ void Sudoku::GiveQuestion(){
 		{i,f,h,-1,-1,-1,b,c,a,d,e,g},
 		{c,a,b,-1,-1,-1,e,g,d,f,h,i}};
 	
-	for(int x=0;x<30;x++){
+	for(int x=0;x<10;x++){
 		int i=rand()%12;
 		int j=rand()%12;
 		if(init_map[i][j]!=-1)
@@ -63,10 +64,10 @@ void Sudoku::GiveQuestion(){
 			mapsave[m]=map[m];
 			m++;}}
 	
-	init();
+/*	init();
 	if(isCorrect()==false || checkmore()==false){
 		return GiveQuestion();}
-	else{
+	else{*/
 
 	int x=rand()%4*3;
 	for(int i=0;i<12;i++){
@@ -75,7 +76,7 @@ void Sudoku::GiveQuestion(){
 			y=y-12;
 		for(int j=0;j<12;j++){
 			cout<<init_map[y][j]<<" ";}
-		cout<<endl;}}
+		cout<<endl;}
 }
 
 void Sudoku::ReadIn(){
@@ -87,15 +88,15 @@ int Sudoku::Solve(){
 //	vector<int>map1(144);
 //	vector<int>map2(144);
 	init();
-
+	
 	if(isCorrect()==false){
-		cout<<"0"<<endl;
+		cout<<'0'<<endl;
 		return 0;}
 	if(checkmore()==false){
-		cout<<"2"<<endl;
+		cout<<'2'<<endl;
 		return 0;}
 	else
-		cout<<"1"<<endl;
+		cout<<'1'<<endl;
 
 	for(int j=0;j<144;j++){
 			cout<<map[j]<<" ";
@@ -128,7 +129,7 @@ bool Sudoku::checkmore(){
 		map[site]++;
 		if(map[site]>9){
 			map[site]=0;
-			site=save[--savesite];}
+			site=save1[--savesite1];}
 		else{
 			if(checkset(site)==0){
 				site=getBlank1(site);}}
@@ -196,7 +197,7 @@ int Sudoku::getBlank1(int site){
 	do{
 		site--;
 	}while(site>=0 && map[site]!=0 );
-	save[savesite++]=site;
+	save1[savesite1]=site;
 	return(site);}
 
 int Sudoku::checkset(int site){
